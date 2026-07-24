@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Deluxe Room",
+    "price": 9500,
+    "available": false
+  },
+  {
+    "id": 2,
+    "name": "Double Room",
+    "price": 10500,
+    "available": false
+  },
+  {
+    "id": 3,
+    "name": "Executive Suite",
+    "price": 14000,
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Luxury Suite",
+    "price": 17500,
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Mini-Suite",
+    "price": 25000,
+    "available": true
+  },
+  {
+    "id": 6,
+    "name": "Presidential Suite",
+    "price": 50000,
+    "available": false
+  }
+]

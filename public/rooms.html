@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rooms</title>
+
+  <style>
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f7fb;
+}
+
+nav{
+    background:#1e3a8a;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+}
+
+nav h2{
+    margin:0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #C9A227;
+    background:white;
+}
+
+.logo h2{
+    color:white;
+    font-size:34px;
+}
+
+.logo img{
+    box-shadow:0 0 15px rgba(201,162,39,.6);
+}
+
+.links a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:bold;
+}
+
+.links a:hover{
+    text-decoration:underline;
+}
+
+h1{
+    text-align:center;
+    color:#1e3a8a;
+    margin:30px 0;
+}
+
+#rooms{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    width:100%;
+    font-size:16px;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.available{
+    color:green;
+    font-weight:bold;
+}
+
+.booked{
+    color:red;
+    font-weight:bold;
+}
+
+.hero{
+    background:#1e3a8a;
+    color:white;
+    text-align:center;
+    padding:50px 20px;
+}
+
+.hero h1{
+    color:white;
+    margin-bottom:10px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.room-image{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+footer{
+    background:#1e3a8a;
+    color:white;
+    text-align:center;
+    padding:25px;
+    margin-top:40px;
+}
+
+</style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+    <img src="/images/logo.jpeg" alt="Hotel Logo">
+    <h2>Emmanuel Grand Hotel</h2>
+    </div>
+
+    <div class="links">
+        <a href="/">Home</a>
+        <a href="/booking.html">Book Room</a>
+        <a href="/login.html">Admin</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Welcome to Emmanuel Grand Hotel</h1>
+
+    <p>
+        Experience comfort, luxury, and exceptional hospitality.
+    </p>
+</section>
+
+
+<h1>Our Rooms</h1>
+
+<div id="rooms"></div>
+
+<script>
+
+fetch("/api/rooms")
+.then(res => res.json())
+.then(data => {
+
+    let html = "";
+
+    data.forEach(room => {
+
+       html += `
+<div class="card">
+
+<img
+    src="${
+        room.image
+        ? '/uploads/' + room.image
+        : '/images/' + room.name.toLowerCase().replace(/\s+/g, '-') + '.jpg'
+    }"
+    class="room-image"
+    alt="${room.name}"
+    onerror="this.src='/images/placeholder.jpg'">
+
+
+    <h2>🛏 ${room.name}</h2>
+
+    <p><strong>Price:</strong> ₦${room.price.toLocaleString()} / night</p>
+
+    <p class="${room.available ? "available" : "booked"}">
+        ${room.available ? "🟢 Available" : "🔴 Booked"}
+    </p>
+
+    ${
+        room.available
+        ? `<button onclick="window.location.href='/booking.html'">
+            Book Now
+           </button>`
+        : `<button disabled>Unavailable</button>`
+    }
+
+</div>
+`;
+
+    });
+
+    document.getElementById("rooms").innerHTML = html;
+
+});
+
+</script>
+
+<footer>
+  <p>© 2026 Emmanuel Grand Hotel</p>
+  <p>Where Comfort Meets Excellence.</p>
+</footer>
+</body>
+</html>

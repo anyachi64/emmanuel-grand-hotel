@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Dashboard</title>
+
+  <style>
+    body{
+  font-family: Arial, sans-serif;
+  background:#f4f7fb;
+  margin:0;
+  padding:30px;
+}
+
+h1{
+  color:#1e3a8a;
+}
+
+.navbar{
+
+background:#1B2A41;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:20px 40px;
+
+color:white;
+
+position:sticky;
+
+top:0;
+
+z-index:999;
+
+}
+
+.logo{
+
+font-size:24px;
+
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #C9A227;
+    background:white;
+}
+
+.logo h2{
+    color:white;
+    font-size:34px;
+}
+
+.logo img{
+    box-shadow:0 0 15px rgba(201,162,39,.6);
+}
+
+.nav-links{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
+
+}
+
+.nav-links a{
+
+color:white;
+
+text-decoration:none;
+
+font-weight:bold;
+
+}
+
+.nav-links a:hover{
+
+color:#FFD700;
+
+}
+
+.card{
+  background:white;
+  border-radius:10px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.delete-btn{
+  background:#dc2626;
+}
+
+.delete-btn:hover{
+  background:#b91c1c;
+}
+
+.stats{
+  display:flex;
+  gap:20px;
+  margin:20px 0;
+}
+
+.stat{
+
+    background:white;
+
+    flex:1;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.stat:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+.stat h2{
+
+    color:#1e3a8a;
+
+    font-size:40px;
+
+}
+
+.stat p{
+
+    color:#666;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:white;
+
+    margin-top:20px;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+th{
+
+    background:#1e3a8a;
+
+    color:white;
+
+    padding:15px;
+
+    text-align:left;
+
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+tr:hover{
+
+    background:#f8fafc;
+
+}
+
+.container{
+
+max-width:1300px;
+
+margin:auto;
+
+padding:30px;
+
+}
+
+#search{
+
+width:100%;
+
+padding:15px;
+
+margin:20px 0;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+font-size:16px;
+
+}
+
+form{
+
+background:white;
+
+padding:20px;
+
+margin:30px 0;
+
+border-radius:12px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+
+form input{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:15px;
+
+border-radius:8px;
+
+border:1px solid #ddd;
+
+}
+
+
+.status{
+
+padding:8px 14px;
+
+border-radius:20px;
+
+font-size:13px;
+
+font-weight:bold;
+
+background:#2563eb;
+
+color:white;
+
+display:inline-block;
+
+}
+
+.checkedin{
+    background:#16a34a;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+}
+
+.modal-content{
+    background:white;
+    width:400px;
+    margin:100px auto;
+    padding:20px;
+    border-radius:10px;
+}
+
+.modal-content input{
+    width:100%;
+    margin:10px 0;
+    padding:10px;
+    box-sizing:border-box;
+}
+
+  </style>
+</head>
+
+<body>
+  
+  <nav class="navbar">
+
+    <div class="logo">
+        <img src="/images/logo.jpeg" alt="Hotel Logo">
+      Emmanuel Grand Hotel
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/rooms.html">Rooms</a>
+        <a href="/booking.html">Bookings</a>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+    </div>
+
+</nav>
+
+<div class="container">
+
+<h1>Hotel Management Dashboard</h1>
+
+<div class="stats">
+
+<div class="stat">
+<h2 id="count">0</h2>
+<p>Total Bookings</p>
+</div>
+
+<div class="stat">
+<h2 id="roomsBooked">0</h2>
+<p>Rooms Booked</p>
+</div>
+
+<div class="stat">
+<h2 id="availableRooms">0</h2>
+<p>Available Rooms</p>
+</div>
+
+<div class="stat">
+<h2 id="revenue">₦0</h2>
+<p>Total Revenue</p>
+</div>
+
+<div class="stat">
+    <h2 id="occupancy">0%</h2>
+    <p>Occupancy Rate</p>
+</div>
+
+</div>
+
+<input
+type="text"
+id="search"
+placeholder="🔍 Search guest..."
+onkeyup="loadBookings()">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Reference</th>
+
+<th>Guest</th>
+
+<th>Room</th>
+
+<th>Check In</th>
+
+<th>Check Out</th>
+
+<th>Total</th>
+
+<th>Status</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="bookings">
+
+</tbody>
+
+</table>
+
+<h2>Add New Room</h2>
+
+<form id="roomForm">
+
+<input
+type="text"
+id="roomName"
+placeholder="Room Name"
+required>
+
+<input
+type="number"
+id="roomPrice"
+placeholder="Price"
+required>
+
+<input
+    type="file"
+    id="roomImage"
+    accept="image/*"
+    required>
+
+<button>
+Add Room
+</button>
+
+</form>
+
+<h2>Room Status</h2>
+
+<div id="rooms">
+
+Loading rooms...
+
+</div>
+
+</div>
+
+
+
+<script>
+
+  async function loadRooms() {
+
+    const response = await fetch("/api/rooms");
+    const rooms = await response.json();
+
+    let html = "";
+
+    rooms.forEach(room => {
+
+        html += `
+
+        <div class="card">
+
+            <h3>${room.name}</h3>
+
+            <p>₦${room.price.toLocaleString()}</p>
+
+            <p class="${
+                room.available
+                ? "available"
+                : "booked"
+            }">
+
+                ${
+                    room.available
+                    ? "🟢 Available"
+                    : "🔴 Booked"
+                }
+
+            </p>
+
+            <button onclick="openEditRoom('${room._id}')">
+                ✏ Edit
+            </button>
+            <button
+                class="delete-btn"
+                onclick="deleteRoom('${room._id}')">
+
+                🗑 Delete
+
+            </button>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("rooms").innerHTML = html;
+}
+
+
+let editingRoomId = "";
+
+async function openEditRoom(id){
+
+    editingRoomId = id;
+
+    const response = await fetch("/api/rooms");
+    const rooms = await response.json();
+
+    const room = rooms.find(r => r._id === id);
+
+    document.getElementById("editRoomName").value = room.name;
+
+    document.getElementById("editRoomPrice").value = room.price;
+
+    document.getElementById("editModal").style.display = "block";
+
+}
+
+function closeModal(){
+
+    document.getElementById("editModal").style.display = "none";
+
+}
+
+async function saveRoom(){
+
+    const formData = new FormData();
+
+    formData.append(
+        "name",
+        document.getElementById("editRoomName").value
+    );
+
+    formData.append(
+        "price",
+        document.getElementById("editRoomPrice").value
+    );
+
+    const image =
+        document.getElementById("editRoomImage").files[0];
+
+    if(image){
+        formData.append("image", image);
+    }
+
+    const response = await fetch(
+        `/api/rooms/${editingRoomId}`,
+        {
+            method: "PUT",
+            body: formData
+        }
+    );
+
+    const result = await response.json();
+
+    alert(result.message);
+
+    closeModal();
+
+    loadRooms();
+
+}
+
+async function deleteRoom(id){
+
+    const confirmDelete =
+    confirm("Are you sure you want to delete this room?");
+
+    if(!confirmDelete){
+        return;
+    }
+
+    const response = await fetch(`/api/rooms/${id}`, {
+
+        method: "DELETE"
+
+    });
+
+    const result = await response.json();
+
+    alert(result.message);
+
+    loadRooms();
+
+}
+
+//logout function
+  async function logout() {
+  await fetch("/api/logout");
+  window.location.href = "/login.html";
+}
+
+
+//login function
+  async function checkAuth() {
+  const res = await fetch("/api/me");
+  const data = await res.json();
+
+  if (!data.loggedIn) {
+    window.location.href = "/login.html";
+  }
+}
+
+checkAuth();
+
+//load bookings
+async function loadBookings() {
+
+    const bookingsResponse = await fetch("/api/bookings");
+    const bookings = await bookingsResponse.json();
+
+    const roomsResponse = await fetch("/api/rooms");
+    const rooms = await roomsResponse.json();
+
+    const search = document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const filteredBookings = bookings.filter(booking =>
+        booking.name.toLowerCase().includes(search)
+    );
+
+    // Dashboard statistics
+    const availableRooms = rooms.filter(room => room.available).length;
+    const bookedRooms = rooms.length - availableRooms;
+    const occupancy =
+    Math.round((bookedRooms / rooms.length) * 100);
+
+    const revenue = bookings.reduce((sum, booking) => {
+        return sum + (booking.totalPrice || 0);
+    }, 0);
+
+    document.getElementById("count").textContent = bookings.length;
+    document.getElementById("roomsBooked").textContent = bookedRooms;
+    document.getElementById("availableRooms").textContent = availableRooms;
+    document.getElementById("revenue").textContent =
+        "₦" + revenue.toLocaleString();
+    document.getElementById("occupancy").textContent =
+    occupancy + "%";  
+
+    let html = "";
+
+    if(filteredBookings.length === 0){
+
+    document.getElementById("bookings").innerHTML =
+    `
+    <tr>
+        <td colspan="8" style="text-align:center;padding:30px;">
+            No bookings found.
+        </td>
+    </tr>
+    `;
+
+    return;
+}
+    filteredBookings.forEach(booking => {
+
+        let badge = "status";
+
+        if (booking.status === "Checked In") {
+            badge = "status checkedin";
+        }
+
+        html += `
+        <tr>
+
+            <td>${booking.bookingReference}</td>
+
+            <td>${booking.name}</td>
+
+            <td>${booking.room}</td>
+
+            <td>${booking.checkin}</td>
+
+            <td>${booking.checkout}</td>
+
+            <td>₦${booking.totalPrice.toLocaleString()}</td>
+
+            <td>
+                <span class="${badge}">
+                    ${booking.status}
+                </span>
+            </td>
+
+            <td>
+
+${
+booking.status === "Booked"
+
+?
+
+`<button onclick="checkIn('${booking._id}')">
+    Check In
+</button>`
+
+:
+
+booking.status === "Checked In"
+
+?
+
+`<button onclick="checkOut('${booking._id}')">
+    Check Out
+</button>`
+
+:
+
+`<button disabled>
+    Completed
+</button>`
+
+}
+
+<button
+class="delete-btn"
+onclick="deleteBooking('${booking._id}')">
+
+Delete
+
+</button>
+
+</td>
+        </tr>
+        `;
+    });
+
+    document.getElementById("bookings").innerHTML = html;
+}
+
+loadBookings();
+loadRooms();
+
+async function deleteBooking(id){
+
+  const confirmDelete =
+  confirm("Are you sure you want to delete this booking?");
+
+  if(!confirmDelete){
+    return;
+  }
+
+  const response = await fetch(`/api/bookings/${id}`,{
+    method:"DELETE"
+  });
+
+  const result = await response.json();
+
+  alert(result.message);
+
+  loadBookings();
+  loadRooms();
+
+}
+
+
+async function checkIn(id){
+
+  const response = await fetch(`/api/checkin/${id}`,{
+    method:"PUT"
+  });
+
+  const result = await response.json();
+
+  alert(result.message);
+
+  loadBookings();
+}
+
+async function checkOut(id){
+
+    const response = await fetch(`/api/checkout/${id}`,{
+        method:"PUT"
+    });
+
+    const result = await response.json();
+
+    alert(result.message);
+
+    loadBookings();
+    loadRooms();
+
+}
+
+
+    document
+.getElementById("roomForm")
+.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append(
+        "name",
+        document.getElementById("roomName").value
+    );
+
+    formData.append(
+        "price",
+        document.getElementById("roomPrice").value
+    );
+
+    formData.append(
+        "image",
+        document.getElementById("roomImage").files[0]
+    );
+
+    const response = await fetch("/api/rooms", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+    alert(result.message);
+
+    loadRooms();
+
+    document.getElementById("roomForm").reset();
+
+});
+
+
+
+
+</script>
+
+<div id="editModal" style="display:none;" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Edit Room</h2>
+
+        <input
+            type="text"
+            id="editRoomName"
+            placeholder="Room Name">
+
+        <input
+            type="number"
+            id="editRoomPrice"
+            placeholder="Price">
+
+        <input
+            type="file"
+            id="editRoomImage"
+            accept="image/*">
+
+        <button onclick="saveRoom()">
+            Save Changes
+        </button>
+
+        <button onclick="closeModal()">
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

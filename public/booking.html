@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book a Room</title>
+</head>
+<style>
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#F8F6F2;
+}
+
+nav{
+    background:#1B2A41;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #C9A227;
+    background:white;
+}
+
+.logo h2{
+    color:white;
+    font-size:34px;
+}
+
+.logo img{
+    box-shadow:0 0 15px rgba(201,162,39,.6);
+}
+
+.links{
+    display:flex;
+    gap:30px;
+}
+
+.links a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.booking-page{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    min-height:calc(100vh - 80px);
+
+}
+
+.left img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.right{
+
+    padding:50px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.right h1{
+
+    color:#1B2A41;
+
+    font-size:42px;
+
+}
+
+.right p{
+
+    margin:20px 0 40px;
+
+    color:#666;
+
+}
+input,
+select{
+
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:20px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#C9A227;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:16px;
+
+    background:#C9A227;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+}
+
+button:hover{
+
+    background:#B58E1D;
+
+}
+
+.summary{
+    background:white;
+    margin:30px 0;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.summary h2{
+    color:#1B2A41;
+    margin-bottom:20px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+    color:#555;
+}
+
+.summary-total{
+    display:flex;
+    justify-content:space-between;
+    font-size:22px;
+    color:#1B2A41;
+    margin-top:20px;
+}
+
+.success-card{
+
+    background:#ecfdf5;
+
+    border-left:6px solid green;
+
+    padding:20px;
+
+    margin-top:25px;
+
+    border-radius:10px;
+
+    color:#065f46;
+
+    animation:fadeIn .5s;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+</style>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <img src="/images/logo.jpeg" alt="Hotel Logo">
+        <h2>Emmanuel Grand Hotel</h2>
+    </div>
+
+    <div class="links">
+
+        <a href="/">Home</a>
+        <a href="/rooms.html">Rooms</a>
+        <a href="/booking.html">Book</a>
+        <a href="/login.html">Admin</a>
+
+    </div>
+
+</nav>
+
+<section class="booking-page">
+
+    <div class="left">
+
+        <img
+            src="/images/booking.jpg"
+            alt="Luxury Room"
+        >
+
+    </div>
+
+    <div class="right">
+
+        <h1>Reserve Your Stay</h1>
+
+        <p>
+            Complete the form below to enjoy a luxurious experience.
+        </p>
+
+<form id="bookingForm">
+
+  <label>Full Name</label>
+<input
+    type="text"
+    id="name"
+    placeholder="Enter your full name"
+    required
+>
+
+<label>Email Address</label>
+<input
+    type="email"
+    id="email"
+    placeholder="Enter your email"
+    required
+>
+
+<label>Phone Number</label>
+<input
+    type="tel"
+    id="phone"
+    placeholder="Enter your phone number"
+    required
+>
+
+<label>Check-in Date</label>
+<input
+    type="date"
+    id="checkin"
+    required
+>
+
+<label>Check-out Date</label>
+<input
+    type="date"
+    id="checkout"
+    required
+>
+
+<label>Adults</label>
+<select id="adults">
+    <option value="1">1 Adult</option>
+    <option value="2">2 Adults</option>
+    <option value="3">3 Adults</option>
+    <option value="4">4 Adults</option>
+</select>
+
+<label>Children</label>
+<select id="children">
+    <option value="0">0 Children</option>
+    <option value="1">1 Child</option>
+    <option value="2">2 Children</option>
+    <option value="3">3 Children</option>
+</select>
+
+<label>Select Room</label>
+<select id="room"></select>
+
+
+  <br><br>
+  <hr>
+
+<div class="summary">
+
+    <h2>Booking Summary</h2>
+
+    <div class="summary-row">
+        <span>Room</span>
+        <span id="summaryRoom">-</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Check-in</span>
+        <span id="summaryCheckin">-</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Check-out</span>
+        <span id="summaryCheckout">-</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Nights</span>
+        <span id="summaryNights">0</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Price / Night</span>
+        <span>₦<span id="pricePerNight">0</span></span>
+    </div>
+
+    <hr>
+
+    <div class="summary-total">
+        <strong>Total</strong>
+        <strong>₦<span id="totalPrice">0</span></strong>
+    </div>
+
+</div>
+
+<br>
+
+<button type="submit">
+    Confirm Booking
+</button>
+
+<p id="message"></p>
+
+</form>
+</div>
+
+</section>
+
+<p id="message"></p>
+
+<script>
+const form = document.getElementById("bookingForm");
+
+const roomPrices = {
+    "Deluxe Room": 9500,
+    "Double Room": 10500,
+    "Executive Suite": 14000,
+    "Luxury Suite": 17500,
+    "Mini-Suite": 25000,
+    "Presidential Suite": 50000
+};
+
+function updateSummary(){
+
+    const room = document.getElementById("room").value;
+    const checkin = document.getElementById("checkin").value;
+    const checkout = document.getElementById("checkout").value;
+
+    document.getElementById("summaryRoom").textContent = room;
+    document.getElementById("summaryCheckin").textContent = checkin || "-";
+    document.getElementById("summaryCheckout").textContent = checkout || "-";
+
+    if(checkin && checkout){
+
+        const start = new Date(checkin);
+        const end = new Date(checkout);
+
+        const diff =
+        (end - start) / (1000 * 60 * 60 * 24);
+
+        const nights = diff > 0 ? diff : 0;
+
+        const price = roomPrices[room];
+
+        const total = nights * price;
+
+        document.getElementById("summaryNights").textContent = nights;
+        document.getElementById("pricePerNight").textContent =
+        price.toLocaleString();
+
+        document.getElementById("totalPrice").textContent =
+        total.toLocaleString();
+
+    }
+
+}
+
+const today = new Date().toISOString().split("T")[0];
+
+document.getElementById("checkin").min = today;
+document.getElementById("checkout").min = today;
+
+document.getElementById("checkin").addEventListener("change", () => {
+
+    const checkin =
+    document.getElementById("checkin").value;
+
+    document.getElementById("checkout").min = checkin;
+
+});
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  const bookingData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+
+    room: document.getElementById("room").value,
+
+    checkin: document.getElementById("checkin").value,
+
+    checkout: document.getElementById("checkout").value,
+
+    adults: document.getElementById("adults").value,
+
+    children: document.getElementById("children").value
+};
+
+  const response = await fetch("/api/book", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(bookingData)
+  });
+
+  const data = await response.json();
+  console.log(data)
+  console.log(data.booking)
+
+if (data.success) {
+
+    localStorage.setItem(
+        "receipt",
+        JSON.stringify(data.booking)
+    );
+
+    document.getElementById("message").innerHTML = `
+        <div class="success-card">
+            <h2>✅ Booking Confirmed</h2>
+
+            <p>Thank you for choosing Emmanuel Grand Hotel.</p>
+
+            <p>
+                <strong>Reference:</strong>
+                ${data.booking.bookingReference}
+            </p>
+        </div>
+    `;
+
+    setTimeout(() => {
+        window.location.href = "/receipt.html";
+    }, 2000);
+
+} else {
+
+    document.getElementById("message").textContent =
+        data.message;
+
+}
+
+});
+
+document.getElementById("room")
+.addEventListener("change", updateSummary);
+
+document.getElementById("checkin")
+.addEventListener("change", updateSummary);
+
+document.getElementById("checkout")
+.addEventListener("change", updateSummary);
+
+fetch("/api/rooms")
+.then(res => res.json())
+.then(rooms => {
+
+    const roomSelect = document.getElementById("room");
+
+    roomSelect.innerHTML = "";
+
+    rooms.forEach(room => {
+
+        roomSelect.innerHTML += `
+            <option value="${room.name}">
+                ${room.name}
+            </option>
+        `;
+
+    });
+
+    updateSummary();
+});
+
+</script>
+
+</body>
+</html>

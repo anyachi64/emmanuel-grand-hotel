@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+
+    <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.6),
+        rgba(0,0,0,.6)
+    ),
+    url("/images/hotel.jpg");
+
+    background-size:cover;
+    background-position:center;
+
+}
+
+.login-box{
+
+    width:400px;
+
+    padding:40px;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.2);
+
+    border-radius:20px;
+
+    text-align:center;
+
+    color:white;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+.login-box h1{
+
+    margin-bottom:10px;
+
+}
+
+.login-box p{
+
+    margin-bottom:30px;
+
+    color:#ddd;
+
+}
+
+.input-group{
+
+    margin-bottom:20px;
+
+}
+
+.input-group input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:16px;
+
+    outline:none;
+
+}
+
+.input-group input:focus{
+
+    box-shadow:0 0 10px #C9A227;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#C9A227;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#B58E1D;
+
+}
+
+#error{
+
+    margin-top:20px;
+
+    color:#ffb3b3;
+
+    font-weight:bold;
+
+}
+
+.home-link{
+
+    display:block;
+
+    margin-top:25px;
+
+    color:white;
+
+    text-decoration:none;
+
+}
+
+.home-link:hover{
+
+    color:#C9A227;
+
+}
+
+@keyframes shake{
+
+0%{transform:translateX(0);}
+25%{transform:translateX(-8px);}
+50%{transform:translateX(8px);}
+75%{transform:translateX(-8px);}
+100%{transform:translateX(0);}
+
+}
+
+.shake{
+
+animation:shake .35s;
+
+}
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+  <img
+src="/images/logo.jpeg"
+width="90"
+alt="Hotel Logo">
+
+<h1>🔐 Admin Login</h1>
+
+<p>Sign in to manage Emmanuel Grand Hotel</p>
+
+<form id="loginForm" autocomplete="off">
+
+<div class="input-group">
+
+<input
+type="text"
+id="username"
+placeholder="Username"
+autocomplete="off"
+required>
+
+</div>
+
+<div class="input-group" style="position:relative;">
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+autocomplete="new-password"
+required>
+
+<span id="togglePassword" style="position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:18px;
+">
+👁️
+</span>
+
+</div>
+
+<button id="loginBtn">
+Login
+</button>
+
+</form>
+
+<p id="error"></p>
+
+<a class="home-link" href="/">
+← Back to Home
+</a>
+
+</div>
+
+
+<p id="message"></p>
+
+<script>
+
+  const password =
+document.getElementById("password");
+
+const toggle =
+document.getElementById("togglePassword");
+
+toggle.onclick = () => {
+
+    if(password.type === "password"){
+
+        password.type = "text";
+        toggle.textContent = "🙈";
+
+    }else{
+
+        password.type = "password";
+        toggle.textContent = "👁️";
+
+    }
+
+};
+
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Signing in...";
+
+      
+
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+      })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("message").textContent =
+      data.message;
+
+    if (data.success) {
+      window.location.href = "/dashboard.html";
+    }else{
+
+    document.getElementById("error").textContent =
+    data.message;
+
+    const box =
+    document.querySelector(".login-box");
+
+    box.classList.add("shake");
+
+    setTimeout(() => {
+        box.classList.remove("shake");
+    }, 400);
+
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+
+}
+});
+</script>
+
+</body>
+</html>

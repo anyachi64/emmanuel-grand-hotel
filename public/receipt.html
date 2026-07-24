@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Receipt</title>
+
+    <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    padding:40px;
+}
+
+.receipt{
+
+    max-width:750px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+}
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:2px solid #eee;
+
+    padding-bottom:20px;
+
+    margin-bottom:30px;
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logo img{
+
+    width:70px;
+
+    border-radius:50%;
+
+}
+
+.logo h2{
+
+    color:#1B2A41;
+
+}
+
+.status{
+
+    color:green;
+
+    font-weight:bold;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin:30px 0;
+
+}
+
+td{
+
+    padding:12px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.total{
+
+    text-align:right;
+
+    font-size:24px;
+
+    color:#1B2A41;
+
+    margin-top:20px;
+
+}
+
+button{
+
+    margin-top:30px;
+
+    padding:15px 30px;
+
+    border:none;
+
+    background:#C9A227;
+
+    color:white;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+}
+
+button:hover{
+
+    background:#B58E1D;
+
+}
+
+.footer{
+
+    text-align:center;
+
+    margin-top:40px;
+
+    color:#666;
+
+}
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="receipt">
+
+<div class="header">
+
+<div class="logo">
+
+<img src="/images/logo.jpeg">
+
+<div>
+
+<h2>Emmanuel Grand Hotel</h2>
+
+<p>Ibadan, Nigeria</p>
+
+</div>
+
+</div>
+
+<div>
+
+<h3>BOOKING RECEIPT</h3>
+
+<p class="status">✔ Confirmed</p>
+
+</div>
+
+</div>
+
+<table>
+
+<tr>
+<td><strong>Reference</strong></td>
+<td id="reference"></td>
+</tr>
+
+<tr>
+<td><strong>Guest</strong></td>
+<td id="guest"></td>
+</tr>
+
+<tr>
+<td><strong>Email</strong></td>
+<td id="email"></td>
+</tr>
+
+<tr>
+<td><strong>Phone</strong></td>
+<td id="phone"></td>
+</tr>
+
+<tr>
+<td><strong>Room</strong></td>
+<td id="room"></td>
+</tr>
+
+<tr>
+<td><strong>Check-in</strong></td>
+<td id="checkin"></td>
+</tr>
+
+<tr>
+<td><strong>Check-out</strong></td>
+<td id="checkout"></td>
+</tr>
+
+<tr>
+<td><strong>Nights</strong></td>
+<td id="nights"></td>
+</tr>
+
+</table>
+
+<div class="total">
+
+Total:
+₦<span id="total"></span>
+
+</div>
+
+<button onclick="window.print()">
+🖨 Print Receipt
+</button>
+
+<div class="footer">
+
+<p>Thank you for choosing Emmanuel Grand Hotel.</p>
+
+<p>We look forward to welcoming you again.</p>
+
+</div>
+
+</div>
+
+<script>
+
+const booking =
+JSON.parse(localStorage.getItem("receipt"));
+console.log(booking);
+if(booking){
+
+document.getElementById("reference").textContent =
+booking.bookingReference;
+
+document.getElementById("guest").textContent =
+booking.name;
+
+document.getElementById("email").textContent =
+booking.email;
+
+document.getElementById("phone").textContent =
+booking.phone;
+
+document.getElementById("room").textContent =
+booking.room;
+
+document.getElementById("checkin").textContent =
+booking.checkin;
+
+document.getElementById("checkout").textContent =
+booking.checkout;
+
+document.getElementById("nights").textContent =
+booking.nights;
+
+document.getElementById("total").textContent =
+booking.totalPrice.toLocaleString();
+
+}
+
+</script>
+
+</body>
+</html>

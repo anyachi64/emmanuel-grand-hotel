@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1783314255603,
+    "bookingReference": "EGH-1783314255603",
+    "name": "zeally",
+    "email": "anyachi64@gmail.com",
+    "phone": "07053725333",
+    "room": "Deluxe Room",
+    "checkin": "2026-08-12",
+    "checkout": "2026-09-12",
+    "adults": "1",
+    "children": "0",
+    "nights": 31,
+    "totalPrice": 294500,
+    "status": "Booked"
+  },
+  {
+    "id": 1783314846778,
+    "bookingReference": "EGH-1783314846778",
+    "name": "Emmanuel Anyanwu",
+    "email": "anyachi64@gmail.com",
+    "phone": "07053725333",
+    "room": "Presidential Suite",
+    "checkin": "2026-11-11",
+    "checkout": "2026-12-11",
+    "adults": "1",
+    "children": "0",
+    "nights": 30,
+    "totalPrice": 1500000,
+    "status": "Booked"
+  },
+  {
+    "id": 1783315436288,
+    "bookingReference": "EGH-1783315436288",
+    "name": "Chibuike Anyanwu",
+    "email": "anyachi64@gmail.com",
+    "phone": "07053725333",
+    "room": "Double Room",
+    "checkin": "2026-11-11",
+    "checkout": "2026-12-11",
+    "adults": "1",
+    "children": "0",
+    "nights": 30,
+    "totalPrice": 315000,
+    "status": "Booked"
+  }
+]
