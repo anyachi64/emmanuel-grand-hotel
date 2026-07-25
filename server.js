@@ -1,3 +1,10 @@
+require("dotenv").config();
+
+const dns = require("dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+console.log("Node DNS:", dns.getServers());
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
@@ -453,13 +460,21 @@ app.get("/api/logout", (req, res) => {
   res.json({ message: "Logged out successfully" });
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/hotelDB")
-.then(() => {
+console.log(process.env.MONGODB_URI);
+
+async function connectDB() {
+  try {
+    console.log("Connecting to MongoDB...");
+    await mongoose.connect(process.env.MONGODB_URI);
+
     console.log("✅ MongoDB Connected");
-})
-.catch(err => {
-    console.log(err);
-});
+  } catch (err) {
+    console.error("❌ MongoDB Connection Failed");
+    console.error(err);
+  }
+}
+
+connectDB();
 
 
 app.listen(3000, () => {

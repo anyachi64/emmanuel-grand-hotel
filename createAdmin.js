@@ -1,22 +1,44 @@
+require("dotenv").config();
+
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const User = require("./models/User");
 
-mongoose.connect("mongodb://127.0.0.1:27017/hotelDB")
-.then(async () => {
+async function createAdmin() {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
 
-    const hashedPassword = await bcrypt.hash("admin123", 10);
+        console.log("✅ MongoDB Connected");
 
-    const user = new User({
-        username: "admin",
-        password: hashedPassword
-    });
+        // Check if admin already exists
+        const existingUser = await User.findOne({ username: "admin" });
 
-    await user.save();
+        if (existingUser) {
+            console.log("⚠️ Admin already exists");
+            return mongoose.connection.close();
+        }
 
-    console.log("✅ Admin created successfully");
+        const hashedPassword = await bcrypt.hash("admin123", 10);
 
-    mongoose.connection.close();
+        const user = new User({
+            username: "admin",
+            password: hashedPassword
+        });
 
-})
-.catch(err => console.log(err));
+        await user.save();
+
+        console.log("✅ Admin created successfully");
+
+        await mongoose.connection.close();
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+createAdmin();
+
+
